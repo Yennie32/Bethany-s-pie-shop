@@ -1,7 +1,18 @@
 // applies settings contained in appsettings.json file
 // makes sure that Kestrel is included and set up IIS integration
 // makes sure that www.root is the folder to look for static content
+using BethanysPieShop.Models;
+
 var builder = WebApplication.CreateBuilder(args); 
+
+// SERVICE REGISTRATION
+// 'AddScoped' = create a Singleton while the request is being handled
+builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+builder.Services.AddScoped<IPieRepository, MockPieRepository>();
+
+/*builder.Services.AddTransient //create a request every time
+builder.Services.AddSingleton // create a single request that last*/
+
 
 // adding ASP.NET Core MVC
 builder.Services.AddControllersWithViews();

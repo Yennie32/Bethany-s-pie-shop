@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 
 namespace BethanysPieShop.Models
 {
-    public class MockPieRepository: IPieRepository
+    public class MockPieRepository: IPieRepository // implements IRepository interface
     {
         private readonly ICategoryRepository _categoryRepository = new MockCategoryRepository();
+        // Property that returns a mock list of pies 
         public IEnumerable<Pie> AllPies =>
             new List<Pie>
             {
@@ -76,7 +77,7 @@ namespace BethanysPieShop.Models
             }
         }
 
-        public IEnumerable<Pie> PiesOfThWeek => throw new NotImplementedException();
+        public IEnumerable<Pie> PiesOfThWeek => throw new NotImplementedException(); // not implemented method, TO DO later
 
         public Pie? GetPieById(int pieId) => AllPies.FirstOrDefault(p => p.PieId == pieId);
 
