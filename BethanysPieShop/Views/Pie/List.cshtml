@@ -1,3 +1,8 @@
+@*We use the @model, which is a known combination, and we then specify the type. 
+I can now access properties on that model that will be passed to me, 
+the instance that is, AllPies of the type that is passed through the @model here*@
+@model IEnumerable<BethanysPieShop.Models.Pie> 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,5 +12,14 @@
 </head>
 <body>
     <h1>@ViewBag.CurrentCategory</h1>
+    @foreach(var pie in Model)
+    {
+        <div>
+            <h2>@pie.Name</h2>
+            @*defines the currency format based on the system*@
+            <h3>@pie.Price.ToString("c")</h3>
+            <h4>@pie.Category.CategoryName</h4>
+        </div>
+    }
 </body>
 </html>
