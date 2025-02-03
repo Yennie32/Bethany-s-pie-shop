@@ -40,5 +40,14 @@ if (app.Environment.IsDevelopment()){ // defines the dev environment
 // middleware component for routing
 // placed at the end. Let MVC handle incoming requets from controllers
 app.MapDefaultControllerRoute();
-
+// Calling the Seed datas
+try
+{
+    DbInitializer.Seed(app);
+}
+catch (Exception ex)
+{
+    // Log the error (you can also log this to a file, etc.)
+    Console.WriteLine($"An error occurred during seeding: {ex.Message}");
+}
 app.Run();
