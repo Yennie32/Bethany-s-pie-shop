@@ -2,13 +2,15 @@
 // makes sure that Kestrel is included and set up IIS integration
 // makes sure that www.root is the folder to look for static content
 using BethanysPieShop.Models;
+using Microsoft.EntityFrameworkCore; // adding EF Core
 
 var builder = WebApplication.CreateBuilder(args); 
 
 // SERVICE REGISTRATION
 // 'AddScoped' = create a Singleton while the request is being handled
-builder.Services.AddScoped<ICategoryRepository, MockCategoryRepository>();
-builder.Services.AddScoped<IPieRepository, MockPieRepository>();
+// Links interface with repository
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IPieRepository, PieRepository>();
 
 /*builder.Services.AddTransient //create a request every time
 builder.Services.AddSingleton // create a single request that last*/
@@ -16,6 +18,13 @@ builder.Services.AddSingleton // create a single request that last*/
 
 // adding ASP.NET Core MVC
 builder.Services.AddControllersWithViews();
+
+// add DbContext extension method
+builder.Services.AddDbContext<BethanysPieShopDbContext>(options => {
+    options.UseSqlServer(
+        // retrieves the connection string from appsettings.json
+        builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]); 
+});
 
 var app = builder.Build();
 
