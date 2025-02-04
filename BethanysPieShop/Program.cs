@@ -39,7 +39,7 @@ if (app.Environment.IsDevelopment()){ // defines the dev environment
 
 // middleware component for routing
 // placed at the end. Let MVC handle incoming requets from controllers
-app.MapDefaultControllerRoute();
+app.MapDefaultControllerRoute();// = "{controller = Home}/{action = Index}/{Id?}"
 // Calling the Seed datas
 try
 {
