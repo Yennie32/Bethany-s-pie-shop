@@ -15,6 +15,12 @@ builder.Services.AddScoped<IPieRepository, PieRepository>();
 /*builder.Services.AddTransient //create a request every time
 builder.Services.AddSingleton // create a single request that last*/
 
+// invokes the GetCart()
+builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetCart(sp));
+// Adds services required for application session state.
+builder.Services.AddSession(); 
+
+builder.Services.AddHttpContextAccessor();
 
 // adding ASP.NET Core MVC
 builder.Services.AddControllersWithViews();
@@ -32,6 +38,8 @@ var app = builder.Build();
 // must be placed after builder and before app.Run()
 
 app.UseStaticFiles(); // returns static files
+
+app.UseSession(); // enable session state for the application.
 
 if (app.Environment.IsDevelopment()){ // defines the dev environment
     app.UseDeveloperExceptionPage(); // diagnostic middleware component, shows errors
