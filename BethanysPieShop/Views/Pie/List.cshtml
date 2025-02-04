@@ -18,7 +18,9 @@ the instance that is, AllPies of the type that is passed through the @model here
 
                     <div class="d-flex justify-content-between mt-2">
                         <h2 class="text-start">
-                            <a class="pie-link">@pie.Name</a>
+                            @* tag helpers to navigate from pie page to detail page via id *@
+                            <a class="pie-link" asp-controller="Pie" asp-action="Details" asp-route-id="@pie.PieId"
+                            >@pie.Name</a>
                         </h2>
                         <h5 class="text-nowrap">
                             @pie.Price.ToString("c")
