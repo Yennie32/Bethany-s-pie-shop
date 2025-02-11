@@ -11,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Links interface with repository
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IPieRepository, PieRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 
 /*builder.Services.AddTransient //create a request every time
 builder.Services.AddSingleton // create a single request that last*/
