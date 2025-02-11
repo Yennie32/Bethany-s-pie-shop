@@ -4,7 +4,7 @@
     <h3 class="my-5">
         You're just one step away from your delicious pies.
     </h3>
-
+@* displays error in the form *@
     <div asp-validation-summary="All" class="text-danger"></div>
 
     <div class="col-6">
@@ -12,6 +12,7 @@
             <div class="col-12">
                 <label asp-for="FirstName" class="form-label"></label>
                 <input asp-for="FirstName" class="form-control" />
+                @* displays error next to the wrong input *@
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
 
