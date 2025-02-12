@@ -4,7 +4,7 @@
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore; // adding EF Core
 
-var builder = WebApplication.CreateBuilder(args); 
+var builder = WebApplication.CreateBuilder(args);
 
 // SERVICE REGISTRATION
 // 'AddScoped' = create a Singleton while the request is being handled
@@ -20,18 +20,22 @@ builder.Services.AddSingleton // create a single request that last*/
 // invokes the GetCart()
 builder.Services.AddScoped<IShoppingCart, ShoppingCart>(sp => ShoppingCart.GetCart(sp));
 // Adds services required for application session state.
-builder.Services.AddSession(); 
+builder.Services.AddSession();
 
 builder.Services.AddHttpContextAccessor();
 
 // adding ASP.NET Core MVC
 builder.Services.AddControllersWithViews();
+// adding Razor Pages
+builder.Services.AddRazorPages();
+
 
 // add DbContext extension method
-builder.Services.AddDbContext<BethanysPieShopDbContext>(options => {
+builder.Services.AddDbContext<BethanysPieShopDbContext>(options =>
+{
     options.UseSqlServer(
         // retrieves the connection string from appsettings.json
-        builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]); 
+        builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]);
 });
 
 var app = builder.Build();
@@ -43,13 +47,18 @@ app.UseStaticFiles(); // returns static files
 
 app.UseSession(); // enable session state for the application.
 
-if (app.Environment.IsDevelopment()){ // defines the dev environment
+if (app.Environment.IsDevelopment())
+{ // defines the dev environment
     app.UseDeveloperExceptionPage(); // diagnostic middleware component, shows errors
 }
 
 // middleware component for routing
 // placed at the end. Let MVC handle incoming requets from controllers
 app.MapDefaultControllerRoute();// = "{controller = Home}/{action = Index}/{Id?}"
+
+// middleware component Razor Pages
+app.MapRazorPages();
+
 // Calling the Seed datas
 try
 {
