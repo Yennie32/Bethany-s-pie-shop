@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BethanysPieShop.Models
 {
-    public class PieRepository: IPieRepository // reference to pie interface file
+    public class PieRepository : IPieRepository // reference to pie interface file
     {
         private readonly BethanysPieShopDbContext _bethanysPieShopDbContext;
-// constructor injection
+        // constructor injection
         public PieRepository(BethanysPieShopDbContext bethanysPieShopDbContext)
         {
             _bethanysPieShopDbContext = bethanysPieShopDbContext;
@@ -27,6 +27,11 @@ namespace BethanysPieShop.Models
         public Pie? GetPieById(int pieId)
         {
             return _bethanysPieShopDbContext.Pies.FirstOrDefault(p => p.PieId == pieId);
+        }
+
+        public IEnumerable<Pie> SearchPies(string searchQuery)
+        {
+            return _bethanysPieShopDbContext.Pies.Where(p => p.Name.Contains(searchQuery));
         }
     }
 }
