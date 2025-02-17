@@ -1,6 +1,8 @@
 // applies settings contained in appsettings.json file
 // makes sure that Kestrel is included and set up IIS integration
 // makes sure that www.root is the folder to look for static content
+using System.Security.Cryptography.Xml;
+using System.Text.Json.Serialization;
 using BethanysPieShop.Models;
 using Microsoft.EntityFrameworkCore; // adding EF Core
 
@@ -25,7 +27,10 @@ builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
 // adding ASP.NET Core MVC
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 // adding Razor Pages
 builder.Services.AddRazorPages();
 
@@ -37,6 +42,9 @@ builder.Services.AddDbContext<BethanysPieShopDbContext>(options =>
         // retrieves the connection string from appsettings.json
         builder.Configuration["ConnectionStrings:BethanysPieShopDbContextConnection"]);
 });
+
+// required to build an API alone. But included in AddControllersWithViews()
+//builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -58,6 +66,9 @@ app.MapDefaultControllerRoute();// = "{controller = Home}/{action = Index}/{Id?}
 
 // middleware component Razor Pages
 app.MapRazorPages();
+
+// middleware component for API alone but included in  MapDefaultControllerRoute()
+// app.MapControllers();
 
 // Calling the Seed datas
 try
